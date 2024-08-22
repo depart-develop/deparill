@@ -28,7 +28,7 @@ const { class: className, text } = Astro.props;
 	let randomArr: number[] = []
 	const nextQuestionRandom = () => {
 		const nextQ = document.querySelector('.js-nextQ');
-		const random = Math.floor(Math.random() * ( 24 ) + 1);
+		const random = Math.floor(Math.random() * ( 23 ) + 1);
 		if(nextQ?.classList.contains('retryBtn')) {
 			randomArr = []
 		}
