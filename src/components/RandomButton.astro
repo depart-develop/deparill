@@ -36,7 +36,7 @@ const { class: className, text } = Astro.props;
 			nextQuestionRandom()
 		} else {
 			randomArr.push(random);
-			nextQ?.setAttribute('href',`/question/${random}/`);
+			nextQ?.setAttribute('href',`/deparill/question/${random}/`);
 		}
 	}
 	document.addEventListener('astro:page-load', () => {
