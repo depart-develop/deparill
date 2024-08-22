@@ -1,0 +1,177 @@
+---
+interface Props {
+	a: string;
+	item: string;
+	itemPosition: string;
+}
+
+const { a, item, itemPosition } = Astro.props;
+---
+<label class="button" for={"select" + itemPosition}><input id={"select" + itemPosition} type="checkbox" data-current={a == itemPosition && 'true'} class="js-answer" data-answer={item} /><span>{itemPosition}. {item}</span></label>
+
+<style lang="scss">
+	.button {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: 1.6rem;
+		border-radius: 100px;
+		padding: 1em 1.5em;
+			border: 3px solid rgba(#ff4d4d, 0);
+		display: block;
+		width: 100%;
+		transition: .3s;
+		@media screen and (max-width: 768px) {
+			padding: 0.5em 1em;
+			font-size: 1.0rem;
+		}
+		span {
+			display: flex;
+			gap: 0 1em;
+			position: relative;
+
+
+		&::before {
+			display: block;
+			border: 3px solid #f1f1f1;
+			min-height: 1em;
+			min-width: 1em;
+			height: 1em;
+			width: 1em;
+			content: '';
+			position: relative;
+			top: .2em;
+		}
+		&::after {
+			border-right: 3px solid #ed7a9c;
+			border-bottom: 3px solid #ed7a9c;
+			content: '';
+			display: block;
+			height: 14px;
+			left: 10px;
+			opacity: 0;
+			position: absolute;
+			top: 10px;
+			transform: rotate(45deg);
+			width: 8px;
+				@media screen and (max-width: 768px) {
+					top: 3px;
+					left: 6px;
+				}
+			}
+		}
+		&:hover {
+			cursor: pointer;
+		}
+		input {
+			display: none;
+		}
+		&:has(input:checked){
+			cursor: pointer;
+			span {
+				&::after {
+					opacity: 1;
+				}
+			}
+		}
+		&:not(:has(input[data-current="true"])):not(:has(input:checked)){
+			:global(.is-correct) &,
+			:global(.is-incorrect) &{
+				opacity: .3;
+			}
+		}
+	}
+	:global(.selectBox:hover .button:not(:hover)){
+		opacity: .3;
+	}
+
+	:global(.is-correct .selectBox:hover .button:not(:hover)),
+	:global(.is-incorrect .selectBox:hover .button:not(:hover)){
+		opacity: 1;
+	}
+	.link-card {
+		list-style: none;
+		display: flex;
+		padding: 1px;
+		background-color: #23262d;
+		background-image: none;
+		background-size: 400%;
+		border-radius: 7px;
+		background-position: 100%;
+		transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+	}
+	.link-card > a {
+		width: 100%;
+		text-decoration: none;
+		line-height: 1.4;
+		padding: calc(1.5rem - 1px);
+		border-radius: 8px;
+		color: white;
+		background-color: #23262d;
+		opacity: 0.8;
+	}
+	h2 {
+		margin: 0;
+		font-size: 1.25rem;
+		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+	p {
+		margin-top: 0.5rem;
+		margin-bottom: 0;
+	}
+	.link-card:is(:hover, :focus-within) {
+		background-position: 0;
+		background-image: var(--accent-gradient);
+	}
+	.link-card:is(:hover, :focus-within) h2 {
+		color: rgb(var(--accent-light));
+	}
+	:global(.is-incorrect) {
+		.button:has(input[data-current="true"]) {
+			border: 3px solid #ff4d4d;
+			box-shadow: none;
+		}
+		.button:has(input:checked) {
+			position: relative;
+			&:after {
+				position: absolute;
+				left: 50%;
+				transform: translate(-50%, -50%) rotate(45deg);
+				top: 50%;
+				content: '';
+				z-index: 1;
+				width: 0.5em;
+				height: 5em;
+				background: #226dff;
+			}
+			&::before {
+				z-index: 1;
+				position: absolute;
+				left: 50%;
+				transform: translate(-50%, -50%) rotate(-45deg);
+				top: 50%;
+				content: '';
+				width: 0.5em;
+				height: 5em;
+				background: #226dff;
+			}
+		}
+	}
+	:global(.is-correct) {
+		.button:has(input[data-current="true"]) {
+			position: relative;
+			&:after {
+				position: absolute;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				top: 50%;
+				content: '';
+				width: 3em;
+				height: 3em;
+				border-radius: 100px;
+				border: 6px solid #ff4d4d;
+			}
+		}
+	}
+</style>

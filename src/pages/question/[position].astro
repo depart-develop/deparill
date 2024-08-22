@@ -1,0 +1,317 @@
+---
+import json from '../../json/data.json';
+import Layout from '../../layouts/Layout.astro';
+import RandomButton from '../../components/RandomButton.astro';
+import CorrectCount from '../../components/CorrectCount.astro';
+
+import Button from '../../components/Button.astro';
+import Phase from '../../components/Phase.astro';
+
+export async function getStaticPaths() {
+const pages = json.data;
+  return pages.map(({ position, q, a, qSelect, guide }) => {
+    return {
+      params: { position },
+      props: { q, a, qSelect , position, guide },
+    };
+  });
+}
+
+const { q, a, qSelect, guide } = Astro.props;
+---
+
+<Layout title="デパートアクセシビリティドリル デパリル">
+	<h1><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><title>690_xm_h</title><path d="M24,16a4,4,0,1,0-3.86-5" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/><path d="M24,16a9,9,0,0,0-9,9v6l-2,6h8a3,3,0,0,0,6,0h8l-2-6V25a9,9,0,0,0-1.53-5" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/><rect width="48" height="48" fill="none"/><rect width="48" height="48" fill="none"/></svg></span>問題<span class="num"><Phase /></span></h1>
+	<div class="js-question">
+		<div class="questionArea">
+			<p class="questionTxt">
+				<span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" fill="none"/><polyline points="6.63 33.39 34.25 5.76 42.74 14.25 15.11 41.87" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/><polyline points="6.63 33.39 4.5 44 15.11 41.87" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/><line x1="32.29" y1="15.72" x2="36.78" y2="20.21" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/></svg></span>{q}</p>
+		
+			<ul class="selectBox">
+				{qSelect.map((item, i) => {
+					let id = 'A';
+					if (i == 1) {
+						id = 'B';
+					} else if (i == 2) {
+						id = 'C';
+					}
+					return (
+						<li>
+							<Button a={a} item={item} itemPosition={id} />
+						</li>
+					);
+				})}
+			</ul>
+	
+		</div>
+		<div class="guideArea">
+			<p class="correct">正解</p>
+			<p class="incorrect">残念・・・正解は{a}</p>
+			
+		<div class="guide">
+			<h2 class="guideTtl"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" fill="none"/><line x1="18" y1="15" x2="27" y2="15" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/><line x1="18" y1="23" x2="27" y2="23" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/><line x1="18" y1="31" x2="21" y2="31" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/><path d="M28,5H12.3A4.16,4.16,0,0,0,8,9V39a4.16,4.16,0,0,0,4.3,4H30" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/><polyline points="34 36 38 44 42 36" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/><path d="M42,36V8a4,4,0,0,0-8,0V36" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/></svg></span>解説</h2>
+			<p class="guideTxt"><Fragment set:html={guide} /></p>
+		</div>
+		<div class="js-nextItem">
+			<RandomButton text={'次の問題へ'} class={'nextBtn'}/>
+			<a class="resultBtn btn" href="/result/">結果へ</a>
+		</div>
+		<CorrectCount transition:persist/>
+		</div>
+	</div>
+</Layout>
+
+
+
+<style lang="scss">
+	
+	ul, li {
+		list-style: none;
+	}
+	:global(main) {
+		margin-top: 3em;
+
+		@media screen and (max-width: 768px) {
+			margin-top: 2em;
+		}
+	}
+	h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 1em;
+    position: absolute;
+    top: 0;
+		gap: .1em;
+    width: 120px;
+    height: 120px;
+		display: flex;
+		flex-flow: column;
+		justify-content: center;
+		align-items: center;
+    background: #fff;
+    margin: auto;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 100px;
+		@media screen and (max-width: 768px) {
+   	 font-size: 1.4rem;
+    width: 110px;
+    height: 110px;
+		}
+		.num {
+			display: block;
+			font-size: 2rem;
+			@media screen and (max-width: 768px) {
+				font-size: 1.8rem;
+			}
+		}
+		.icon {
+			width: 1.7em;
+			position: relative;
+			z-index: 1;
+			&::before{
+				z-index: -1;
+				border-radius: 100px;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				width: 1em;
+				height: 1em;
+				position: absolute;
+				background: #ffff00;
+				display: block;
+				content: '';
+			}
+		}
+	}
+	.guideArea {
+		border-radius: 15px;
+		background: #f8f8f8;
+		padding: 2em;
+		margin-top: 4em;
+		text-align: center;
+		overflow: hidden;
+		@media screen and (max-width: 768px) {
+			padding: 0;
+			margin-top: 2em;
+		}
+	}
+	.guideArea,
+	.correct,
+	.incorrect {
+		opacity: 0;
+		height: 0;
+		margin-top: 0;
+	}
+	.guideArea {
+		.is-correct &,
+		.is-incorrect &{
+			opacity: 1;
+			height: auto;
+			margin-top: 4em;
+			padding: 2em;
+			@media screen and (max-width: 768px) {
+			margin-top: 2em;
+			padding: 2em 0.5em;
+		}
+		}
+	}
+	.questionArea {
+		margin-top: 3em;
+		@media screen and (max-width: 768px) {
+			margin-top: 1.5em;
+		}
+	}
+	// .questionArea {
+	// .is-correct &,
+	// .is-incorrect &{
+	// 	display: none;
+	// 	}
+	// }
+	.correct{
+		color: #ff4d4d;
+		font-size: 3rem;
+		@media screen and (max-width: 768px) {
+				font-size: 1.7rem;
+		}
+		.is-correct & {
+				opacity: 1;
+			height: auto;
+		}
+	}
+	.incorrect {
+		color: #226dff;
+		font-size: 3rem;
+
+		@media screen and (max-width: 768px) {
+				font-size: 1.7rem;
+		}
+		.is-incorrect & {
+				opacity: 1;
+			height: auto;
+		}
+	}
+	.result {
+		margin-top: 1.5em;
+	}
+	.resultBtn {
+		display: none;
+		border-radius: 15px;
+		width: 10em;
+		margin: 1em 0 0 auto;
+		padding: 0.8rem 2rem;
+		text-decoration: none;
+		background-color: #fff;
+		color: #36cad8;
+		border: 3px solid #36cad8;
+		.is-last &{
+			display: block;
+		}
+	}
+	:global(.nextBtn) {
+		display: block;
+		border-radius: 15px;
+		width: 10em;
+		max-width: 100%;
+		margin: 1em 0 0 auto;
+		padding: 0.8rem 2rem;
+		text-decoration: none;
+		background-color: #fff;
+		color: #36cad8;
+		border: 3px solid #36cad8;
+		.is-last &{
+			display: none;
+		}
+		@media screen and (max-width: 768px) {
+			margin: 1em auto 0;
+		}
+	}
+	.selectBox {
+		display: flex;
+		flex-flow: column;
+		gap: 1em 0;
+		margin-top: 3em;
+		li {
+			cursor: pointer;
+		}
+		@media screen and (max-width: 768px) {
+			margin-top: 1.5em;
+		}
+	}
+	.questionTxt {
+		font-size: 1.8rem;
+		.icon {
+			width: 1.6em;
+			display: inline-block;
+			top: 0.4em;
+			position: relative;
+			margin-right: 0.5em;
+			z-index: 1;
+			&::before{
+				z-index: -1;
+				border-radius: 100px;
+				top: 40%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				width: 1em;
+				height: 1em;
+				position: absolute;
+				background: #a2e2bd;
+				display: block;
+				content: '';
+			}
+		}
+
+		@media screen and (max-width: 768px) {
+			font-size: 1.2rem;
+		}
+	}
+	.guide {
+		margin-top: 2em;
+		text-align: left;
+	}
+	.guideTtl {
+		font-size: 1.6rem;
+		.icon {
+			width: 1.4em;
+			display: inline-block;
+			top: 0.4em;
+			position: relative;
+			margin-right: 0.5em;
+			z-index: 1;
+			&::before{
+				z-index: -1;
+				border-radius: 100px;
+				top: 38%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				width: 0.9em;
+				height: 0.9em;
+				position: absolute;
+				background: #85dfe7;
+				display: block;
+				content: '';
+			}
+		}
+
+		@media screen and (max-width: 768px) {
+			font-size: 1.2rem;
+		}
+	}
+	.guideTxt {
+		background: #fff;
+		border-radius: 15px;
+		padding: 2em;
+		margin-top: 1em;
+		@media screen and (max-width: 768px) {
+			margin-top: 0.5em;
+		padding: 0.8em;
+		font-size: 0.8em;
+		}
+	}
+	:global(.correctCount) {
+		display: none;
+	}
+</style>

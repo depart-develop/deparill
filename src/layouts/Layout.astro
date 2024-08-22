@@ -1,0 +1,97 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html transition:animate="slide">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Zen+Maru+Gothic:wght@400;500&display=swap" rel="stylesheet">
+		<ViewTransitions />
+	</head>
+	<body>
+		<header>
+			<p>デパリル</p>
+		</header>
+		<main>
+			<div class="contents">
+				<slot />
+			</div>
+		</main>
+	</body>
+</html>
+<style is:global>
+	* {
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+	}
+	body{
+
+    overflow-y: scroll;
+	}
+	header {
+		text-align: center;
+		font-size: 1.8rem;
+		padding: 0.5em 0;
+		font-weight: 500;
+  font-family: "Zen Maru Gothic", serif;
+	}
+	.contents {
+		position: relative;
+		border-radius: 10px;
+		background: #fff;
+		padding: 4rem 2rem 6rem;
+		margin: auto;
+		@media screen and (max-width: 768px) {
+			padding: 2em 0.8em 3em;
+		}
+	}
+	main {
+		font-family: "Kosugi Maru", sans-serif;
+		font-weight: 400;
+		font-style: normal;
+		margin-inline: auto;
+		padding: 1rem;
+		font-size: 20px;
+		line-height: 1.6;
+	}
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+	}
+	html {
+		font-family: system-ui, sans-serif;
+		background: #f1f1f1;
+	}
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+</style>

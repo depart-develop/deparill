@@ -1,0 +1,45 @@
+
+---
+interface Props {
+	class: string;
+	text: string;
+}
+
+const { class: className, text } = Astro.props;
+---
+
+<a class={`${className} btn js-nextQ`} href="">{text}</a>
+<style>
+	h2 {
+		margin: 0;
+		font-size: 1.25rem;
+		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+	p {
+		margin-top: 0.5rem;
+		margin-bottom: 0;
+	}
+	a {
+		cursor: pointer;
+	}
+</style>
+
+<script>
+	let randomArr: number[] = []
+	const nextQuestionRandom = () => {
+		const nextQ = document.querySelector('.js-nextQ');
+		const random = Math.floor(Math.random() * ( 24 ) + 1);
+		if(nextQ?.classList.contains('retryBtn')) {
+			randomArr = []
+		}
+		if(randomArr.indexOf(random) != -1) {
+			nextQuestionRandom()
+		} else {
+			randomArr.push(random);
+			nextQ?.setAttribute('href',`/question/${random}/`);
+		}
+	}
+	document.addEventListener('astro:page-load', () => {
+		nextQuestionRandom()
+	});
+</script>

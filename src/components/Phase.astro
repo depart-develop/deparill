@@ -1,0 +1,33 @@
+<span class="js-current" transition:persist data-current="1">1</span>
+<style>
+	h2 {
+		margin: 0;
+		font-size: 1.25rem;
+		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+	p {
+		margin-top: 0.5rem;
+		margin-bottom: 0;
+	}
+</style>
+
+<script>
+	const current = () => {
+		const target = document.querySelector('.js-current');
+			if(target) {
+			const newCount = Number(target.getAttribute('data-count')) + 1;
+			target.textContent = newCount.toString();
+			target.setAttribute('data-count', newCount.toString());
+			if(target.textContent == "10"){
+				const nextArea = document.querySelector('.js-nextItem');
+				nextArea?.classList.add('is-last');
+			}
+			if(target.textContent == "1"){
+				const countTarget:any = document.querySelector('.js-count');
+				countTarget.textContent =  0;
+				countTarget.setAttribute('data-count', 0);
+			}
+		}
+	}
+document.addEventListener('astro:page-load', current);
+</script>

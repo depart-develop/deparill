@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import RandomButton from '../../components/RandomButton.astro';
+import CorrectCount from '../../components/CorrectCount.astro';
+---
+
+<Layout title="デパートアクセシビリティドリル デパリル 結果">
+	<div class="result">
+		<span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><defs><style>.a,.b{fill:none;}.b{stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}</style></defs><title>432_tr_h</title><rect class="a" width="48" height="48"/><path class="b" d="M12,18v6a12,12,0,0,0,24,0V18Z"/><line class="b" x1="12" y1="43" x2="36" y2="43"/><path class="b" d="M36,18h3.35C42.46,18,44,19.11,44,23a4.31,4.31,0,0,1-3.29,4.55"/><line class="b" x1="24" y1="11" x2="24" y2="3"/><line class="b" x1="16" y1="9" x2="16" y2="5"/><line class="b" x1="32" y1="9" x2="32" y2="5"/></svg></span>
+		<h1>お疲れ様でした</h1>
+	<p>10問中<CorrectCount transition:persist/>問正解でした！</p>
+	<RandomButton text={'もう一度チャレンジする'} class={'retryBtn'}/>
+	</div>
+</Layout>
+
+<style>
+	.icon {
+		width: 4em;
+		display: block;
+		margin: auto;
+		position: relative;
+		z-index: 1;
+		&::before{
+				z-index: -1;
+				border-radius: 100px;
+				top: 60%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				width: 1.5em;
+				height: 1.5em;
+				position: absolute;
+				background: #e6c07a;
+				display: block;
+				content: '';
+			}
+	}
+	.result {
+		text-align: center;
+		display: flex;
+		flex-flow: column;
+		gap: 1.5em 0;
+	}
+	:global(.retryBtn) {
+		border-radius: 15px;
+		width: 15em;
+		margin: 1em auto 0;
+		padding: 0.8rem 2rem;
+		text-decoration: none;
+		background-color: #fff;
+		color: #36cad8;
+		border: 3px solid #36cad8;
+	}
+
+</style>
